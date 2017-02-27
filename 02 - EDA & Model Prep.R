@@ -32,7 +32,6 @@ dichotomies <- data.frame(apply(dichotomies, 2, as.factor))
 pdat1 <- select(pdat1, -parknride, -transitcenter, -college, -hospital, -library, 
        -frequent, -contains("emp_"))
 
-
 # Plot dichotomies
 ################################################################################
 plot_d <- function(DATA, FOLDER){
@@ -88,6 +87,7 @@ plot_i <- function(DATA, FOLDER){
   rm(filename, i, names, plot, which)
 }
 plot_i(DATA=pdat1, FOLDER="raw")
+
 #NOTE: Overall, pretty decent distributions
 
 # Plot log of interval data
@@ -176,6 +176,10 @@ save(dat_v1, file="./data/dat_v1.Rdata")
 dat_v2 <- bind_cols(hold, pdat2, dhold)
 save(dat_v2, file="./data/dat_v2.Rdata")
 
+#NOTE: At the time of the analysis, I decided to exlude the log-transformed
+#      data since they did not appear to improve on the distributions over the
+#      raw data, so all models were run on v1, v3, and v4 data only.
+
 dat_v3 <- bind_cols(hold, pdat3, dhold)
 save(dat_v3, file="./data/dat_v3.Rdata")
 
@@ -187,6 +191,10 @@ save(dat_v1nc, file="./data/dat_v1nc.Rdata")
 
 dat_v2nc <- bind_cols(hold, pdat2nc, dhold)
 save(dat_v2nc, file="./data/dat_v2nc.Rdata")
+
+#NOTE: At the time of the analysis, I decided to exlude the log-transformed
+#      data since they did not appear to improve on the distributions over the
+#      raw data, so all models were run on v1, v3, and v4 data only.
 
 dat_v3nc <- bind_cols(hold, pdat3nc, dhold)
 save(dat_v3nc, file="./data/dat_v3nc.Rdata")

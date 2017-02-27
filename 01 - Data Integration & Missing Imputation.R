@@ -78,6 +78,7 @@ fillit <- function(x){
     use <- dat2[names(dat2) != i]
     use <- cbind(use, dat[names(dat)==i])
     form1 <- paste(i," ~.")
+    set.seed(2345)
     base <- leaps::regsubsets(as.formula(form1), data=use, method="forward", nvmax = 10)
     sout <- summary(base)
     best<- sout$which[seq(along = sout$cp)[sout$cp == min(sout$cp)], ]
@@ -91,12 +92,29 @@ fillit <- function(x){
   }
   return(hold)
 }
+
 predicted <- fillit()
-rm(fillit, missing, misslist, dat)
+
+#Replacing missing with the predicted
+vars <- names(dat)
+for (i in missing){
+  #print(i)
+  p <- predicted[i]
+  d <- dat[i]
+  temp <- cbind(d, p)
+  names(temp) <- c("d", "p")
+  temp$d <- ifelse(is.na(temp$d)==TRUE, temp$p, temp$d)
+  temp <- temp[1]
+  names(temp) <- c(i)
+  dat <- dat[,names(dat) != i]
+  dat <- cbind(dat, temp)
+}
+
+rm(d, p, predicted, temp, i, missing, vars, fillit, misslist)
 
 # Creating some flags for modelling
 ################################################################################
-dat_v0 <- predicted
+dat_v0 <- dat
 
 #Create Season Flags
 dat_v0$flag_win <- ifelse(dat_v0$season==1, 1, 0)
@@ -201,11 +219,7 @@ dat_v0$day <- factor(dat_v0$day,
 ################################################################################
 save(dat_v0, file="./data/dat_v0.Rdata")
 
-rm(predicted, dat_v0)
+rm(dat, dat_v0)
 
- 
-    
-    
-    
-    
+
 
