@@ -63,6 +63,8 @@ imp$Importance <- round(imp$Overall, digits=1)
 imp <- select(imp, Variable, Importance) %>%
   mutate(order=nrow(imp):1,
          lab=as.character(Importance))
+#saving for plotting later
+save(imp, file="./output/imp.Rdata")
 
 #Plot
 
