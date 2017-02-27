@@ -25,4 +25,4 @@
 *.bak
 
 # Hiding EDA directory of image files
-**/output/eda/**
+output/eda/**
